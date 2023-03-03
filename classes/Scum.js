@@ -45,11 +45,13 @@ const scumName = nameByRace("human", { gender: "female" });
     }
 
     attack = () => {
-      return this.strength + this.getRandomInt(6);
+      let sword = this.getStuff.sword ? 1 :  0
+      return this.strength + this.getRandomInt(6) + sword;
     }
 
     takeDommage = (dmg) => {
-      this.hp = this.hp - dmg;
+      let armor = this.getStuff.armor ? 1 :  0
+      this.hp = this.hp - dmg + armor;
       if (this.hp <= 0 ) {
         this.hp = 0;
         this.isDead = true;
