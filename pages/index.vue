@@ -7,6 +7,19 @@
     <h2 v-else class="text-2xl text-amber-400 text-center">C'est partit </h2>
 
     <div v-if="hisGameStart">
+      <div>
+        <ul>
+          <li>
+            <p class="text-amber-400"> <span class="font-bold">Nom : </span>{{scum.getName()}}</p>
+          </li>
+          <li>
+            <p class="text-amber-400"> <span class="font-bold">PV : </span>{{scum.getHp()}}</p>
+          </li>
+          <li>
+            <p class="text-amber-400"> <span class="font-bold">Or : </span>{{scum.getGp()}}</p>
+          </li>
+        </ul>
+      </div>
 
       <button class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white " @click="creatScum">TESTS</button>
     </div>
@@ -16,40 +29,29 @@
 
 <script>
 
-// CLASS SCUM
-class Scum {
-   name = 'tutu';
-   hp = 20;
-   getHp = () => {
-     return this.hp;
-  }
-  getName = () => {
-     return this.name
-  }
-}
 
-// END CLASS SCUM
+import Scum from "../classes/Scum.js";
+
 export default {
-
-
 
  data() {
 
    return {
      hisGameStart: false,
-     scum:  new Scum(),
+     scum:  new Scum,
    }
  },
+
   methods: {
     gameStart() {
       console.log('click')
       this.hisGameStart = true;
     },
     creatScum() {
-      // console.log(this.scum.getHp());
+      console.log(this.scum.attack());
     }
   },
-  layout: 'default',
 
+  layout: 'default',
 }
 </script>
