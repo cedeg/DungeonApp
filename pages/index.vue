@@ -19,7 +19,7 @@
             <p class="text-amber-400"> <span class="font-bold">Or : </span>{{scum.getGp()}}</p>
           </li>
         </ul>
-        <p> Choisisez un lieu à exporer : </p>
+        <p> Choisissez un lieu à explorer : </p>
         <ul >
           <li>
             <button @click="explore('ruins')" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white "> les ruines</button>
@@ -31,6 +31,19 @@
             <li>
               <button @click="goLeft" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
               gauche</button>
+            </li>
+          </ul>
+        </div>
+        <div v-if="isInRoom">
+          <ul>
+            <li>
+              <p class="text-amber-400"> <span class="font-bold">Un : {{monster.name}}</span></p>
+            </li>
+            <li>
+              <p v-if="!isTrap" class="text-amber-400"> <span class="font-bold">défense : {{monster.shield}}</span></p>
+            </li>
+            <li>
+              <p v-if="!isTrap" class="text-amber-400"> <span class="font-bold">Or : {{monster.gp}}</span></p>
             </li>
           </ul>
         </div>
@@ -58,10 +71,12 @@ export default {
      danger: Danger,
      land: false,
      isExplore: false,
-     leftNumber : this.getRandomInt(this.maxNumber),
-     rightNumber : this.getRandomInt(this.maxNumber),
      // TOOD : modifier max number à 6 après les tests
-     maxNumber : 2
+     leftNumber : this.getRandomInt(2),
+     rightNumber : this.getRandomInt(2),
+     isInRoom: false,
+     monster : false,
+     isTrap : false
    }
  },
 
@@ -80,7 +95,16 @@ export default {
       }
     },
     goLeft() {
-      console.log(this.land[this.leftNumber])
+      this.isExplore = false;
+      this.isInRoom = true;
+      this.monster = this.land[this.leftNumber];
+
+      this.isTrap = this.monster.isTrap;
+      if ( this.isTrap ) {
+
+        this.scum.takeDommage(this.monster.dmg);
+      }
+
     },
     getRandomInt(max) {
       return Math.floor(Math.random() * max)
