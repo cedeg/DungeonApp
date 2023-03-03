@@ -3,10 +3,10 @@
   <nav>
     <ul class="flex justify-around">
       <li class="m-2 text-center">
-        <NuxtLink class="p-2 text-amber-400 hover:bg-amber-400 hover:text-white" to="/">Home</NuxtLink>
+        <NuxtLink class=" rounded p-2 text-amber-400 hover:bg-amber-400 hover:text-white" to="/">Home</NuxtLink>
       </li>
       <li class="m-2 text-center">
-        <NuxtLink class="p-2 text-amber-400 hover:bg-amber-400 hover:text-white" to="/about">About</NuxtLink>
+        <NuxtLink class=" rounded p-2 text-amber-400 hover:bg-amber-400 hover:text-white" to="/about">About</NuxtLink>
       </li>
     </ul>
   </nav>
