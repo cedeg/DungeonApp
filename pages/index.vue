@@ -45,9 +45,11 @@ export default {
   methods: {
     gameStart() {
       console.log('click')
+      this.scum = new Scum;
       this.hisGameStart = true;
     },
     creatScum() {
+      console.log(this.scum.getStuff())
       console.log(this.scum.attack());
     }
   },
