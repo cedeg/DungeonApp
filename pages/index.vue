@@ -45,9 +45,12 @@
             <li>
               <p v-if="!isTrap" class="text-amber-400"> <span class="font-bold">Or : {{monster.gp}}</span></p>
             </li>
+            <li>
+              <p v-if="isTrap" class="text-amber-400"> <span class="font-bold">It's a trap ! </span></p>
+            </li>
           </ul>
           <button @click="fight(monster.id)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
-            Combatre</button>
+            {{ !isTrap ? 'Combatre' : 'Aie !' }}</button>
         </div>
       </div>
 
@@ -134,6 +137,14 @@ export default {
 
      fight(monsterId) {
      const monster = this.land[monsterId];
+
+     if (monster.isTrap) {
+       this.fightWin = true;
+       this.scum.takeDommage(monster.dmg)
+       this.fightEnd = true;
+       this.isInRoom = false;
+       return;
+     }
      const hit = this.scum.attack();
      if (hit >= monster.shield) {
        this.scum.addGp(monster.gp);
