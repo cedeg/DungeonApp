@@ -6,7 +6,7 @@
     <button v-if="!hisGameStart" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white " @click="gameStart">Lancer une partie</button>
     <h2 v-else class="text-2xl text-amber-400 text-center">C'est partit </h2>
 
-    <div v-if="hisGameStart">
+    <div v-if="hisGameStart" keep-alive>
       <div>
         <ul>
           <li>
@@ -29,7 +29,7 @@
           <p>Par ou allez-vous ?</p>
           <ul>
             <li>
-              <button @click="enter" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
+              <button @click="enter" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
               Entrer...</button>
             </li>
           </ul>
@@ -64,12 +64,10 @@
           <p class="text-amber-400"> <span class="font-bold">Vous perdez  : {{monster.dmg}}</span> !</p>
         </div>
         <div>
-          <button @click="enter" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
+          <button @click="enter" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
             Entrer...</button>
         </div>
       </div>
-
-
     </div>
   </div>
 </div>
@@ -113,7 +111,7 @@ export default {
       this.isExplore = true;
       switch (land) {
         case 'ruins':
-          this.land = this.danger.ruins
+          this.land = this.danger.ruins;
       }
     },
     enter() {
@@ -122,14 +120,10 @@ export default {
       this.isInRoom = true;
       this.monster = this.land[this.randomNumber];
       this.fightEnd = false;
-
       this.isTrap = this.monster.isTrap;
-      if ( this.isTrap ) {
-
-        this.scum.takeDommage(this.monster.dmg);
-      }
 
     },
+
     getRandomInt(max) {
       return Math.floor(Math.random() * max);
     },
@@ -137,14 +131,17 @@ export default {
 
      fight(monsterId) {
      const monster = this.land[monsterId];
-
+       // TODO CHANGER VALEUR
+       this.randomNumber = this.getRandomInt(2)
      if (monster.isTrap) {
        this.fightWin = true;
        this.scum.takeDommage(monster.dmg)
        this.fightEnd = true;
        this.isInRoom = false;
+
        return;
      }
+
      const hit = this.scum.attack();
      if (hit >= monster.shield) {
        this.scum.addGp(monster.gp);
