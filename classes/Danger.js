@@ -1,6 +1,7 @@
 export default  class Danger {
   static ruins = {
     0 : {
+      'id': 0,
       'name' : 'Pit Trap',
       'shield' : 0,
       'dmg' : 3,
@@ -8,6 +9,7 @@ export default  class Danger {
       'isTrap' : true
     },
     1 : {
+      'id': 1,
       'name' : 'Skeleton',
       'shield' : 2,
       'dmg' : 2,
