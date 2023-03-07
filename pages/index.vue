@@ -19,79 +19,86 @@
             <p class="text-amber-400"> <span class="font-bold">Or : </span>{{scum.getGp()}}</p>
           </li>
         </ul>
-        <div v-if="!isShop">
-          <p> Choisissez un lieu à explorer : </p>
-          <ul >
-            <li>
-              <button @click="explore('ruins')" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white "> les ruines</button>
-            </li>
-          </ul>
-          <div v-if="isExplore">
-            <p>Par ou allez-vous ?</p>
-            <ul>
+        <div v-if="!isDead">
+          <div v-if="!isShop">
+            <p> Choisissez un lieu à explorer : </p>
+            <ul >
               <li>
-                <button @click="enter" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
-                  Entrer...</button>
+                <button @click="explore('ruins')" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white "> les ruines</button>
               </li>
             </ul>
-          </div>
-          <div v-if="isInRoom">
-            <ul>
-              <li>
-                <p class="text-amber-400"> <span class="font-bold">Un : {{monster.name}}</span></p>
-              </li>
-              <li>
-                <p v-if="!isTrap" class="text-amber-400"> <span class="font-bold">défense : {{monster.shield}}</span></p>
-              </li>
-              <li>
-                <p v-if="!isTrap" class="text-amber-400"> <span class="font-bold">Or : {{monster.gp}}</span></p>
-              </li>
-              <li>
-                <p v-if="isTrap" class="text-amber-400"> <span class="font-bold">It's a trap ! </span></p>
-              </li>
-            </ul>
-            <button @click="fight(monster.id)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
-              {{ !isTrap ? 'Combatre' : 'Aie !' }}</button>
-          </div>
-          <div v-if="fightEnd">
-            <div v-if="fightWin">
-              <p>Vous remportez le combat !</p>
-              <p class="text-amber-400"> <span class="font-bold">Vous remportez  : {{monster.gp}}</span> !</p>
+            <div v-if="isExplore">
+              <p>Par ou allez-vous ?</p>
+              <ul>
+                <li>
+                  <button @click="enter" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
+                    Entrer...</button>
+                </li>
+              </ul>
             </div>
-            <div v-else>
-              <p>Vous êtes blessé !</p>
-              <p class="text-amber-400"> <span class="font-bold">Vous perdez  : {{monster.dmg}}</span> !</p>
+            <div v-if="isInRoom">
+              <ul>
+                <li>
+                  <p class="text-amber-400"> <span class="font-bold">Un : {{monster.name}}</span></p>
+                </li>
+                <li>
+                  <p v-if="!isTrap" class="text-amber-400"> <span class="font-bold">défense : {{monster.shield}}</span></p>
+                </li>
+                <li>
+                  <p v-if="!isTrap" class="text-amber-400"> <span class="font-bold">Or : {{monster.gp}}</span></p>
+                </li>
+                <li>
+                  <p v-if="isTrap" class="text-amber-400"> <span class="font-bold">It's a trap ! </span></p>
+                </li>
+              </ul>
+              <button @click="fight(monster.id)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
+                {{ !isTrap ? 'Combatre' : 'Aie !' }}</button>
             </div>
+            <div v-if="fightEnd">
+              <div v-if="fightWin">
+                <p>Vous remportez le combat !</p>
+                <p class="text-amber-400"> <span class="font-bold">Vous remportez  : {{monster.gp}}</span> !</p>
+              </div>
+              <div v-else>
+                <p>Vous êtes blessé !</p>
+                <p class="text-amber-400"> <span class="font-bold">Vous perdez  : {{monster.dmg}}</span> !</p>
+              </div>
+              <ul>
+                <li>
+                  <button @click="enter" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
+                    Entrer...</button>
+                </li>
+                <li>
+                  <button @click="goShop" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
+                    Aller au shop</button>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div v-if="isShop">
+            <h2 class="text-2xl text-amber-400 p-2">SHOP</h2>
+            <p>clicker sur un objet pour l'acheter.</p>
+
             <ul>
-              <li>
-                <button @click="enter" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
-                  Entrer...</button>
-              </li>
-              <li>
-                <button @click="goShop" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
-                  Aller au shop</button>
+              <li v-for="item in items" class="flex items-baseline">
+                <p class="rounded text-l flex-auto w-64 bg-amber-400 text-white p-2">{{item.name}} -- {{item.effect}} -- {{item.price}} golds</p>
+
+                <button @click="buyItem(item)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white flex-auto mx-2">
+                  Acheter</button>
               </li>
             </ul>
 
+            <button @click="goShop" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
+              Quitter le shop</button>
           </div>
         </div>
-
-        <div v-if="isShop">
-          <h2 class="text-2xl text-amber-400 p-2">SHOP</h2>
-          <p>clicker sur un objet pour l'acheter.</p>
-
-          <ul>
-            <li v-for="item in items" class="flex items-baseline">
-              <p class="rounded text-l flex-auto w-64 bg-amber-400 text-white p-2">{{item.name}} -- {{item.effect}} -- {{item.price}} golds</p>
-
-              <button @click="buyItem(item)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white flex-auto mx-2">
-                Acheter</button>
-            </li>
-          </ul>
-
-          <button @click="goShop" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
-            Quitter le shop</button>
+        <div v-else>
+          <p>VOUS ETES MORT</p>
+          <button v-if="isDead" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white " @click="gameStart">Relancer une partie...</button>
         </div>
+
 
         </div>
 
@@ -127,7 +134,8 @@ export default {
      fightWin : false,
      fightEnd: false,
      isShop : false,
-     items: new Item()
+     items: new Item(),
+     isDead: false,
    }
  },
 
@@ -170,7 +178,9 @@ export default {
        this.scum.takeDommage(monster.dmg, true)
        this.fightEnd = true;
        this.isInRoom = false;
-
+        if (this.scum.hp < 1) {
+          this.isDead = true;
+        }
        return;
      }
 
@@ -184,6 +194,9 @@ export default {
      }
      this.fightEnd = true;
        this.isInRoom = false;
+       if (this.scum.hp < 1) {
+         this.isDead = true;
+       }
     },
 
     goShop() {
@@ -196,6 +209,7 @@ export default {
       this.monster = false;
       this.isTrap = false;
       this.fightWin = false;
+      this.isDead = false;
     },
 
     buyItem(item) {

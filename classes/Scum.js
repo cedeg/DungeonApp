@@ -65,7 +65,7 @@ const scumName = nameByRace("human", { gender: "female" });
 
       if (this.hp <= 0 ) {
         this.hp = 0;
-        this.isDead = true;
+        ;
         document.getElementById("modal-message").classList.remove('hidden');
         document.getElementById('modal-text-message').innerHTML = "VOUS ETES MORT !"
         document.getElementById('modal-raisons').innerHTML = "Le donjon à eu raison de vous... Relancer une partie... Ou partez..."
