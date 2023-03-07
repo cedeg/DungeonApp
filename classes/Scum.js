@@ -1,5 +1,5 @@
 import { nameByRace } from "fantasy-name-generator";
-import Item from "./Item.js";
+import Stuff from "./Stuff.js";
 
 const scumName = nameByRace("human", { gender: "female" });
 
@@ -17,7 +17,7 @@ const scumName = nameByRace("human", { gender: "female" });
 
     isWin = false
 
-    stuff = new Item()
+    stuff = new Stuff()
 
     getStuff = () => {
       return this.stuff

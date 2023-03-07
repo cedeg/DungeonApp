@@ -77,7 +77,17 @@
         </div>
 
         <div v-if="isShop">
-          <p>SHOP</p>
+          <h2 class="text-2xl text-amber-400 p-2">SHOP</h2>
+          <p>clicker sur un objet pour l'acheter.</p>
+
+          <ul>
+            <li v-for="item in items" class="flex items-baseline">
+              <p class="rounded text-l flex-auto w-64 bg-amber-400 text-white p-2">{{item.name}} -- {{item.effect}} -- {{item.price}} golds</p>
+
+              <button @click="buyItem(item)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white flex-auto mx-2">
+                Acheter</button>
+            </li>
+          </ul>
 
           <button @click="goShop" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
             Quitter le shop</button>
@@ -96,6 +106,8 @@
 
 import Scum from "../classes/Scum.js";
 import Danger from "../classes/Danger.js"
+import Stuff from "~/classes/Stuff";
+import Item from "~/classes/Item";
 
 export default {
 
@@ -103,11 +115,11 @@ export default {
 
    return {
      hisGameStart: false,
-     scum:  new Scum,
+     scum:  new Scum(),
      danger: Danger,
      land: false,
      isExplore: false,
-     // TOOD : modifier max number à 6 après les tests
+     // TODO : modifier max number à 6 après les tests
      randomNumber : this.getRandomInt(2),
      isInRoom: false,
      monster : false,
@@ -115,6 +127,7 @@ export default {
      fightWin : false,
      fightEnd: false,
      isShop : false,
+     items: new Item()
    }
  },
 
@@ -150,7 +163,7 @@ export default {
 
      fight(monsterId) {
      const monster = this.land[monsterId];
-       // TODO CHANGER VALEUR
+       // TODO : CHANGER VALEUR
        this.randomNumber = this.getRandomInt(2)
      if (monster.isTrap) {
        this.fightWin = true;
@@ -184,8 +197,20 @@ export default {
       this.monster = false;
       this.isTrap = false;
       this.fightWin = false;
+    },
+
+    buyItem(item) {
+      if (!this.scum.getGp() >= item.price) {
+        // TODO : gérer le message d'erreur
+       // return "Vous n'avez pas suffisamment de Pièces d'or.";
+      }
+      this.scum.spendGold(item.price);
+      let itemName = item.name
+      this.scum.stuff[itemName] = true;
     }
   },
+
+
 
   layout: 'default',
 }
