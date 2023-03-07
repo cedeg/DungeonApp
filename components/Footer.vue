@@ -22,6 +22,19 @@
       </div>
     </div>
   </div>
+
+  <div class="modal bg-amber-300 absolute top-0 bottom-0 w-full flex flex-col opacity-95 hidden" id="modal-message">
+    <div class="flex justify-end">
+      <button @click="modalClose" class="p-2 text-xl  rounded hover:bg-amber-400 hover:text-white">X</button>
+    </div>
+    <div class="flex-auto">
+      <h2 id="modal-text-message" class="text-center">Message de modal</h2>
+      <div class="flex flex-center flex-col">
+        <p class="text-center" id="modal-raisons">Raison de modal</p>
+        <button @click="modalClose" class="p-2 py-4 text-xl  rounded hover:bg-amber-400 hover:text-white mx-32">J'ai compris</button>
+      </div>
+    </div>
+  </div>
 </footer>
 </template>
 
@@ -32,6 +45,7 @@ export default {
   methods: {
     modalClose() {
       document.getElementById('modal-error').classList.add('hidden')
+      document.getElementById('modal-message').classList.add('hidden')
     }
   }
 }
