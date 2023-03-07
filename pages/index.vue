@@ -119,8 +119,8 @@ export default {
      danger: Danger,
      land: false,
      isExplore: false,
-     // TODO : modifier max number à 6 après les tests
-     randomNumber : this.getRandomInt(2),
+
+     randomNumber : this.getRandomInt(6),
      isInRoom: false,
      monster : false,
      isTrap : false,
@@ -163,10 +163,10 @@ export default {
 
      fight(monsterId) {
      const monster = this.land[monsterId];
-       // TODO : CHANGER VALEUR
-       this.randomNumber = this.getRandomInt(2)
+
+       this.randomNumber = this.getRandomInt(6)
      if (monster.isTrap) {
-       this.fightWin = true;
+       this.fightWin = false;
        this.scum.takeDommage(monster.dmg, true)
        this.fightEnd = true;
        this.isInRoom = false;
@@ -179,7 +179,7 @@ export default {
        this.scum.addGp(monster.gp);
       this.fightWin = true;
      } else {
-       this.fightWin = true;
+       this.fightWin = false;
        this.scum.takeDommage(monster.dmg, false)
      }
      this.fightEnd = true;
