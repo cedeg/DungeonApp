@@ -1,10 +1,11 @@
 export default class Stuff {
   Rope = false;
-  Caltrops = false;
+  Caltrops = true;
   Bouclier = false;
 
-  Potion = false;
-  Epée = false;
+  Potion = true;
+
   Armure = false;
 
 }
+

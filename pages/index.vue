@@ -94,6 +94,10 @@
             <button @click="goShop" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
               Quitter le shop</button>
           </div>
+          <div v-if="isStuff">
+            <button @click="goStuff" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
+              Voir mon équipement</button>
+          </div>
         </div>
         <div v-else-if="isWin">
           <p>Félicitation vous avez gagné !!!</p>
@@ -110,6 +114,24 @@
     </div>
 
   </div>
+  <div class="modal bg-amber-300 absolute top-0 bottom-0 left-0 right-0 w-full flex flex-col opacity-95 hidden" id="modal-items">
+    <div class="flex justify-end">
+      <button @click="modalClose" class="p-2 text-xl  rounded hover:bg-amber-400 hover:text-white">X</button>
+    </div>
+    <div class="flex-auto">
+      <h2 id="modal-item-message" class="text-center">Sac</h2>
+      <div class="flex flex-center flex-col">
+        <p class="text-center" id="modal-item">Mes objets :</p>
+        <ul class="flex flex-col">
+          <li class="flex justify-center" v-for="(stuff, index) in scum.getStuff()" v-if="stuff">
+
+            <p>{{ index }} </p><button class="rounded text-white hover:bg-amber-400 hover:text-white border-amber-50 border-2 mx-4 px-2" v-if="(index === 'Potion')">utiliser </button>
+          </li>
+        </ul>
+        <button @click="modalClose" class="p-2 py-4 text-xl  rounded hover:bg-amber-400 hover:text-white mx-32">Ok</button>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -118,7 +140,7 @@
 
 import Scum from "../classes/Scum.js";
 import Danger from "../classes/Danger.js"
-import Stuff from "~/classes/Stuff";
+import Stuff, {stuffList} from "~/classes/Stuff";
 import Item from "~/classes/Item";
 
 export default {
@@ -142,12 +164,14 @@ export default {
      items: new Item(),
      isDead: false,
      isWin: false,
-   }
- },
+     isStuff: true,
 
+   }
+
+ },
   methods: {
+
     gameStart() {
-      console.log('click')
       this.scum = new Scum;
       this.hisGameStart = true;
       this.resetGame();
@@ -222,7 +246,6 @@ export default {
     },
 
     buyItem(item) {
-      console.log(this.scum.getGp(), item.price)
       if (this.scum.getGp() < item.price) {
         document.getElementById('modal-error').classList.remove('hidden')
         document.getElementById('error-message').innerText = "Vous ne pouvez pas acheter ça !";
@@ -232,6 +255,17 @@ export default {
       this.scum.spendGold(item.price);
       let itemName = item.name
       this.scum.stuff[itemName] = true;
+
+    },
+
+    modalClose() {
+      document.getElementById('modal-items').classList.add('hidden')
+
+    },
+
+
+    goStuff() {
+      document.getElementById('modal-items').classList.remove('hidden')
 
     }
   },
