@@ -85,14 +85,19 @@
               <li v-for="item in items" class="flex items-baseline">
                 <p class="rounded text-l flex-auto w-64 bg-amber-400 text-white p-2">{{item.name}} -- {{item.effect}} -- {{item.price}} golds</p>
 
-                <button @click="buyItem(item)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white flex-auto mx-2">
+                <button v-if="!scum.stuff[item.name]" @click="buyItem(item)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white flex-auto mx-2">
                   Acheter</button>
+                <p v-else>Vous avez déjà cet objet</p>
               </li>
             </ul>
 
             <button @click="goShop" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white">
               Quitter le shop</button>
           </div>
+        </div>
+        <div v-else-if="isWin">
+          <p>Félicitation vous avez gagné !!!</p>
+          <button v-if="isDead" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white " @click="gameStart">Relancer une partie...</button>
         </div>
         <div v-else>
           <p>VOUS ETES MORT</p>
@@ -136,6 +141,7 @@ export default {
      isShop : false,
      items: new Item(),
      isDead: false,
+     isWin: false,
    }
  },
 
@@ -194,8 +200,11 @@ export default {
      }
      this.fightEnd = true;
        this.isInRoom = false;
-       if (this.scum.hp < 1) {
+       if (this.scum.getHp() < 1) {
          this.isDead = true;
+       }
+       if(this.scum.getGp() > 49) {
+         this.isWin = true;
        }
     },
 
