@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="static">
     <Header></Header>
     <!-- START output the page content -->
     <div>
      <Nuxt class="py-6 px-4" />
     </div>
     <!-- END output the page content -->
-    <Footer></Footer>
+    <Footer class=""></Footer>
   </div>
 </template>
 

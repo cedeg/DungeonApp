@@ -167,7 +167,7 @@ export default {
        this.randomNumber = this.getRandomInt(2)
      if (monster.isTrap) {
        this.fightWin = true;
-       this.scum.takeDommage(monster.dmg)
+       this.scum.takeDommage(monster.dmg, true)
        this.fightEnd = true;
        this.isInRoom = false;
 
@@ -180,7 +180,7 @@ export default {
       this.fightWin = true;
      } else {
        this.fightWin = true;
-       this.scum.takeDommage(monster.dmg)
+       this.scum.takeDommage(monster.dmg, false)
      }
      this.fightEnd = true;
        this.isInRoom = false;
@@ -188,7 +188,6 @@ export default {
 
     goShop() {
       this.isShop = !this.isShop;
-
     },
 
     resetGame() {
@@ -200,13 +199,17 @@ export default {
     },
 
     buyItem(item) {
-      if (!this.scum.getGp() >= item.price) {
-        // TODO : gérer le message d'erreur
-       // return "Vous n'avez pas suffisamment de Pièces d'or.";
+      console.log(this.scum.getGp(), item.price)
+      if (this.scum.getGp() < item.price) {
+        document.getElementById('modal-error').classList.remove('hidden')
+        document.getElementById('error-message').innerText = "Vous ne pouvez pas acheter ça !";
+        document.getElementById('error-raisons').innerText = "Vous n'avez pas suffisamment d'or";
+        return "Vous n'avez pas suffisamment de Pièces d'or.";
       }
       this.scum.spendGold(item.price);
       let itemName = item.name
       this.scum.stuff[itemName] = true;
+
     }
   },
 
