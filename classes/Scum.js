@@ -60,6 +60,10 @@ const scumName = nameByRace("human", { gender: "female" });
         let armor = this.getStuff().Armure ? 1 :  0
         this.hp = this.hp - dmg + armor;
       } else {
+        if (this.getStuff().Rope) {
+          this.getStuff().Rope = false;
+          return;
+        }
         this.hp = this.hp - dmg;
       }
 
