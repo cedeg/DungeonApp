@@ -57,11 +57,11 @@
                 {{ !isTrap ? 'Combatre' : 'Aie !' }}</button>
             </div>
             <div v-if="fightEnd">
-              <div v-if="fightWin">
+              <div v-if="fightEscape"><p>Vous avez pris la fuite!</p></div>
+              <div v-else-if="fightWin">
                 <p>Vous remportez le combat !</p>
                 <p class="text-amber-400"> <span class="font-bold">Vous remportez  : {{monster.gp}}</span> !</p>
               </div>
-              <div v-if="fightEscape"><p>Vous avez pris la fuite!</p></div>
               <div v-else>
                 <p>Vous êtes blessé !</p>
                 <p class="text-amber-400"> <span class="font-bold">Vous perdez  : {{monster.dmg}}</span> !</p>
