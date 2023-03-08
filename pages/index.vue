@@ -51,7 +51,9 @@
                   <p v-if="isTrap" class="text-amber-400"> <span class="font-bold">It's a trap ! </span></p>
                 </li>
               </ul>
-              <button @click="fight(monster.id)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
+              <button v-if="scum.getStuff().Caltrops" @click="useItem(items.caltrops.name)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
+                Fuire </button>
+              <button v-if="!fightEnd" @click="fight(monster.id)" class="p-2 text-xl text-amber-400 rounded hover:bg-amber-400 hover:text-white ">
                 {{ !isTrap ? 'Combatre' : 'Aie !' }}</button>
             </div>
             <div v-if="fightEnd">
@@ -59,6 +61,7 @@
                 <p>Vous remportez le combat !</p>
                 <p class="text-amber-400"> <span class="font-bold">Vous remportez  : {{monster.gp}}</span> !</p>
               </div>
+              <div v-if="fightEscape"><p>Vous avez pris la fuite!</p></div>
               <div v-else>
                 <p>Vous êtes blessé !</p>
                 <p class="text-amber-400"> <span class="font-bold">Vous perdez  : {{monster.dmg}}</span> !</p>
@@ -125,7 +128,7 @@
         <ul class="flex flex-col">
           <li class="flex justify-center" v-for="(stuff, index) in scum.getStuff()" v-if="stuff">
 
-            <p>{{ index }} </p><button class="rounded text-white hover:bg-amber-400 hover:text-white border-amber-50 border-2 mx-4 px-2" v-if="(index === 'Potion')">utiliser </button>
+            <p>{{ index }} </p><button @click="useItem(index)" class="rounded text-white hover:bg-amber-400 hover:text-white border-amber-50 border-2 mx-4 px-2" v-if="(index === 'Potion')">utiliser </button>
           </li>
         </ul>
         <button @click="modalClose" class="p-2 py-4 text-xl  rounded hover:bg-amber-400 hover:text-white mx-32">Ok</button>
@@ -164,7 +167,8 @@ export default {
      items: new Item(),
      isDead: false,
      isWin: false,
-     isStuff: true,
+     isStuff: false,
+     fightEscape: false,
 
    }
 
@@ -188,9 +192,10 @@ export default {
       this.fightWin = false;
       this.isExplore = false;
       this.isInRoom = true;
-      this.monster = this.land[this.randomNumber];
+      this.monster = this.land[this.getRandomInt(6)];
       this.fightEnd = false;
       this.isTrap = this.monster.isTrap;
+      this.fightEscape = false;
 
     },
 
@@ -243,6 +248,8 @@ export default {
       this.isTrap = false;
       this.fightWin = false;
       this.isDead = false;
+      this.isStuff = false;
+      this.fightEscape = false;
     },
 
     buyItem(item) {
@@ -252,6 +259,7 @@ export default {
         document.getElementById('error-raisons').innerText = "Vous n'avez pas suffisamment d'or";
         return "Vous n'avez pas suffisamment de Pièces d'or.";
       }
+      this.isStuff = true;
       this.scum.spendGold(item.price);
       let itemName = item.name
       this.scum.stuff[itemName] = true;
@@ -267,6 +275,19 @@ export default {
     goStuff() {
       document.getElementById('modal-items').classList.remove('hidden')
 
+    },
+
+    useItem(item) {
+      switch (item) {
+        case 'Potion':
+          this.scum.heal(this.getRandomInt(6))
+          this.scum.stuff.Potion = false;
+          break;
+        case 'Caltrops':
+          this.fightEscape = true;
+          this.fightEnd = true;
+          this.scum.stuff.Caltrops = false;
+      }
     }
   },
 

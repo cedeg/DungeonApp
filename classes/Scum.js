@@ -74,7 +74,11 @@ const scumName = nameByRace("human", { gender: "female" });
     }
 
     heal = (hp) => {
-      return this.hp = this.hp + hp;
+      this.hp = this.hp + hp;
+      if (this.hp > 20) {
+        this.hp = 20;
+      }
+      return this.hp;
     }
 
     getRandomInt = (max) => {
